@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client/edge';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Models {

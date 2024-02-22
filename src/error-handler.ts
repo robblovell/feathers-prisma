@@ -1,5 +1,5 @@
 import errors = require('@feathersjs/errors');
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client/edge';
 
 function getType(v: number): string {
   let type = '';
