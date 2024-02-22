@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client/edge';
 export interface Models {
 }
 export declare type IdField = string | number | {

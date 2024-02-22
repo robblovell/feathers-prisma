@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
 const errors = require("@feathersjs/errors");
-const client_1 = require("@prisma/client");
+const edge_1 = require("@prisma/client/edge");
 function getType(v) {
     let type = '';
     const cases = {
@@ -25,7 +25,7 @@ function errorHandler(error, prismaMethod) {
     if (error instanceof errors.FeathersError) {
         feathersError = error;
     }
-    else if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
+    else if (error instanceof edge_1.Prisma.PrismaClientKnownRequestError) {
         const { code, meta, message, clientVersion, } = error;
         const errType = getType(Number(code.substring(1)));
         switch (errType) {
@@ -50,7 +50,7 @@ function errorHandler(error, prismaMethod) {
                 break;
         }
     }
-    else if (error instanceof client_1.Prisma.PrismaClientValidationError) {
+    else if (error instanceof edge_1.Prisma.PrismaClientValidationError) {
         switch (prismaMethod) {
             case 'findUnique':
             case 'remove':
