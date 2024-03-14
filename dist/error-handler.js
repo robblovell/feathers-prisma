@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
 const errors = require("@feathersjs/errors");
-const client_1 = require("@prisma/client");
+const typeFor_1 = require("./typeFor");
 function getType(v) {
     let type = '';
     const cases = {
@@ -22,10 +22,13 @@ function getType(v) {
 }
 function errorHandler(error, prismaMethod) {
     let feathersError;
+    console.log('FEATHERS-PRISMA ERROR: ', error);
+    const errorType = (0, typeFor_1.typeFor)(error);
+    console.log('FEATHERS-PRISMA ERROR TYPE: ', errorType);
     if (error instanceof errors.FeathersError) {
         feathersError = error;
     }
-    else if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
+    else if (errorType.includes('Prisma') && errorType.includes('Request')) {
         const { code, meta, message, clientVersion, } = error;
         const errType = getType(Number(code.substring(1)));
         switch (errType) {
@@ -50,7 +53,7 @@ function errorHandler(error, prismaMethod) {
                 break;
         }
     }
-    else if (error instanceof client_1.Prisma.PrismaClientValidationError) {
+    else if (errorType.includes('Prisma') && errorType.includes('Validation')) {
         switch (prismaMethod) {
             case 'findUnique':
             case 'remove':
